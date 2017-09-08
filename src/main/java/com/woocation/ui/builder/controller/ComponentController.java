@@ -33,11 +33,30 @@ public class ComponentController {
 
 	@RequestMapping(value = "/", method = RequestMethod.DELETE)
 	@ResponseBody
-	public Component delete(
+	public Component deleteComponent(
 			@RequestParam(name = "componentName") String componentName) {
 
 		return componentServiceImpl.deleteComponent(componentName);
 
 	}
 
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@ResponseBody
+	public Component getComponent(
+			@RequestParam(name = "componentName") String componentName) {
+
+		return componentServiceImpl.findComponent(componentName);
+
+	}
+
+	@RequestMapping(value = "/", method = RequestMethod.PUT)
+	@ResponseBody
+	public Component updateComponent(
+			@RequestParam(name = "componentName") String componentName,
+			@RequestBody Map<String, Object> componentContent) {
+
+		return componentServiceImpl.updateComponent(new Component(
+				componentName, componentContent));
+
+	}
 }

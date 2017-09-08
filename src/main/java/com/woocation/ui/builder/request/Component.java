@@ -6,27 +6,26 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document(collection = "component")
 public class Component {
 
-	
 	public Component() {
-		
+		super();
 	}
-	
-	public Component(String componentName , Map<String, Object> componentContent) {
-		this.componentName = componentName ;
-		this.componentContent = componentContent ;
+
+	public Component(String componentName, Map<String, Object> componentContent) {
+		this.componentName = componentName;
+		this.componentContent = componentContent;
 	}
-	
+
 	@Id
-	private String id ;
-	
+	private String id;
+
 	@Indexed(unique = true)
-	private String componentName ;
-	
+	private String componentName;
+
 	private Map<String, Object> componentContent;
-	
+
 	public String getComponentName() {
 		return componentName;
 	}
@@ -35,21 +34,20 @@ public class Component {
 		this.componentName = componentName;
 	}
 
-	
-		
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public Map<String, Object> getComponentContent() {
 		return componentContent;
 	}
+
 	public void setComponentContent(Map<String, Object> componentContent) {
 		this.componentContent = componentContent;
 	}
-	
-	
-	
+
 }
