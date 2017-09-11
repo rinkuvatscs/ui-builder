@@ -1,7 +1,5 @@
 package com.woocation.ui.builder.request;
 
-import java.util.Map;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,7 +11,7 @@ public class Component {
 		super();
 	}
 
-	public Component(String componentName, Map<String, Object> componentContent) {
+	public Component(String componentName, String componentContent) {
 		this.componentName = componentName;
 		this.componentContent = componentContent;
 	}
@@ -24,7 +22,7 @@ public class Component {
 	@Indexed(unique = true)
 	private String componentName;
 
-	private Map<String, Object> componentContent;
+	private String componentContent;
 
 	public String getComponentName() {
 		return componentName;
@@ -42,11 +40,11 @@ public class Component {
 		this.id = id;
 	}
 
-	public Map<String, Object> getComponentContent() {
+	public String getComponentContent() {
 		return componentContent;
 	}
 
-	public void setComponentContent(Map<String, Object> componentContent) {
+	public void setComponentContent(String componentContent) {
 		this.componentContent = componentContent;
 	}
 
