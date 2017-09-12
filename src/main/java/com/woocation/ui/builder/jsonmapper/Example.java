@@ -46,6 +46,12 @@ public class Example {
 
 	}
 
+	public JSONObject combindTemplateAndJsonData(JSONObject dataJson, JSONObject template) throws JSONException {
+		ProteusClient client = ProteusClient.getInstance();
+
+		return client.transform(dataJson, template);
+	}
+
 	/**
 	 * Using single JSONObject as input
 	 * 

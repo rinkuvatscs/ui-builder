@@ -1,5 +1,7 @@
 package com.woocation.ui.builder.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +20,11 @@ public class ComponentController {
 	@Autowired
 	private ComponentServiceImpl componentServiceImpl;
 
-	@RequestMapping(value = "/", method = RequestMethod.POST , consumes = "text/plain" )
+	@RequestMapping(value = "/", method = RequestMethod.POST  )
 	@ResponseBody
 	public Component addComponent(
 			@RequestParam(name = "componentName") String componentName,
-			@RequestBody String componentContent) {
+			@RequestBody Map<String,Object> componentContent) {
 
 		return componentServiceImpl.addComponent(new Component(componentName,
 				componentContent));
@@ -47,11 +49,11 @@ public class ComponentController {
 
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.PUT , consumes = "text/plain")
+	@RequestMapping(value = "/", method = RequestMethod.PUT )
 	@ResponseBody
 	public Component updateComponent(
 			@RequestParam(name = "componentName") String componentName,
-			@RequestBody String componentContent) {
+			@RequestBody Map<String,Object> componentContent) {
 
 		return componentServiceImpl.updateComponent(new Component(
 				componentName, componentContent));

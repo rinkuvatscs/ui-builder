@@ -1,44 +1,46 @@
 package com.woocation.ui.builder.mustach;
 
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.gson.Gson;
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
+import com.woocation.ui.builder.jsonmapper.ProteusClient;
 import com.woocation.ui.builder.request.Component;
 import com.woocation.ui.builder.service.impl.ComponentServiceImpl;
-
 @org.springframework.stereotype.Component
 public class MustachService {
 
 	@Autowired
 	private ComponentServiceImpl componentServiceImpl;
 
-	public Map<String, Object> replaceContent(String componentName, Map<String, Object> content) {
+	public Map<String, Object> replaceContent(String componentName, Map<String, Object> content)  {
 		Component component = componentServiceImpl.findComponent(componentName);
-		Gson gson = new Gson();
-		Template tmpl = Mustache.compiler().compile(gson.toJson(component));
-		// System.out.println(tmpl.execute(content));
-		Map<String, Object> dataNew = gson.fromJson(tmpl.execute(content), Map.class);
-
-		System.out.println(dataNew.get("componentContent"));
-		// dataNew.put("componentContent",gson.fromJson(String.valueOf(dataNew.get("componentContent")),
-		// Map.class));
-		return dataNew;
+		try {
+			return combindTemplateAndJsonData(new JSONObject(content), new JSONObject(component.getComponentContent()));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null ;
+		}
 	}
 
-	Map<String, Object> replaceData(Map<String, Object> template, Map<String, Object> data) {
 
-		template.forEach((key, value) -> {
-			if (value instanceof Collection) {
-
-			}
-		});
-
-		return null;
+	public Map<String, Object> combindTemplateAndJsonData(JSONObject dataJson, JSONObject template) throws JSONException {
+		Map<String,Object> response = new HashMap<String, Object>() ;
+		ProteusClient client = ProteusClient.getInstance();
+		JSONObject data = client.transform(dataJson, template);;
+		System.out.println(data.toString(3));
+		
+		Iterator<String> keys = data.keys();
+		while(keys.hasNext()) {
+			String key = keys.next() ;
+			response.put(key , data.get(key));
+		}
+		
+		return  response ;
 	}
-
 }

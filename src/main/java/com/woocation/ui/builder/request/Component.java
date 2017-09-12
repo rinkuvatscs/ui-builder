@@ -1,17 +1,25 @@
 package com.woocation.ui.builder.request;
 
+import java.util.Map;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Document(collection = "component")
-public class Component {
+@JsonAutoDetect(fieldVisibility = Visibility.ANY  )
+public class Component 
+{
 
 	public Component() {
 		super();
 	}
 
-	public Component(String componentName, String componentContent) {
+	public Component(String componentName, Map<String, Object> componentContent) {
 		this.componentName = componentName;
 		this.componentContent = componentContent;
 	}
@@ -22,7 +30,8 @@ public class Component {
 	@Indexed(unique = true)
 	private String componentName;
 
-	private String componentContent;
+	@JsonIgnore 
+	private Map<String, Object> componentContent;
 
 	public String getComponentName() {
 		return componentName;
@@ -40,11 +49,11 @@ public class Component {
 		this.id = id;
 	}
 
-	public String getComponentContent() {
+	public Map<String, Object> getComponentContent() {
 		return componentContent;
 	}
 
-	public void setComponentContent(String componentContent) {
+	public void setComponentContent(Map<String, Object> componentContent) {
 		this.componentContent = componentContent;
 	}
 

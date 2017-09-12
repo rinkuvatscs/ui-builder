@@ -77,7 +77,7 @@ public class Transformer {
 				}
 
 				if (list != null && list.size() == 0) {
-					template.put(key, "");
+					template.put(key, value);
 				} else if (list != null && list.size() == 1) {
 					template.put(key, list.get(0));
 				} else {
