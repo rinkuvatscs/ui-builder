@@ -28,5 +28,10 @@ public class MustachController {
 		 return mustachService.replaceContent(componentName, data) ;
 	}
 
+	@RequestMapping(value = "/replaceContentString" , method = RequestMethod.POST)
+	@ResponseBody
+	public String replaceContent1(String componentName , @RequestBody Map<String,Object> data)  {
+		 return mustachService.replaceContent1(componentName, data) ;
+	}
 	
 }

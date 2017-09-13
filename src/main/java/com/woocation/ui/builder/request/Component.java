@@ -8,10 +8,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Document(collection = "component")
-@JsonAutoDetect(fieldVisibility = Visibility.ANY  )
 public class Component 
 {
 
@@ -29,8 +27,7 @@ public class Component
 
 	@Indexed(unique = true)
 	private String componentName;
-
-	@JsonIgnore 
+ 
 	private Map<String, Object> componentContent;
 
 	public String getComponentName() {

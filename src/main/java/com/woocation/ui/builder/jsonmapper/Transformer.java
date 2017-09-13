@@ -134,4 +134,67 @@ public class Transformer {
 
 		return returnList;
 	}
+	
+	
+	
+	public static Map<String,Object> transformImplForMap(JSONObject input, JSONObject template) throws JSONException {
+		Iterator keys = template.keys();
+		Map<String,Object> response = new HashMap();
+		while (keys.hasNext()) {
+			String key = (String) keys.next();
+			Object value = template.opt(key);
+
+			if (value instanceof JSONObject) {
+				transformImpl(input, (JSONObject) value);
+			}
+
+			else if (value instanceof String) {
+
+				List<Object> list;
+				String findKey = (String) value;
+
+				if (findKey.startsWith(Constants._AS_SET)) {
+					Map<String, List<Object>> intermediateMap = new HashMap();
+					int referenceLength = 0;
+					for (String subkey : findKey.substring(7, findKey.length() - 1).split(",")) {
+
+						String[] parts = subkey.split(Constants.AS_SPACE);
+
+						String alias = null;
+
+						if (parts.length == 2) {
+							alias = parts[1];
+						} else {
+							alias = parts[0].substring(parts[0].lastIndexOf(Constants.DOT) + 1);
+						}
+
+						List<Object> intermediateList = JSONUtils.getValue(input, parts[0]);
+
+						referenceLength = intermediateList.size();
+
+						intermediateMap.put(alias, intermediateList);
+					}
+					list = concatenate(intermediateMap, referenceLength);
+				} else {
+					list = JSONUtils.getValue(input, findKey);
+				}
+
+				if (list != null && list.size() == 0) {
+					response.put(key, value);
+					template.put(key, value);
+				} else if (list != null && list.size() == 1) {
+					template.put(key, list.get(0));
+					response.put(key, list.get(0));
+				} else {
+					template.put(key, list);
+					response.put(key, list);
+				}
+			}
+
+		}
+
+		return response;
+
+	}
+
 }
