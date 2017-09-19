@@ -6,12 +6,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-
 @Document(collection = "component")
-public class Component 
-{
+public class Component {
 
 	public Component() {
 		super();
@@ -27,7 +23,7 @@ public class Component
 
 	@Indexed(unique = true)
 	private String componentName;
- 
+
 	private Map<String, Object> componentContent;
 
 	public String getComponentName() {
